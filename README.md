@@ -15,4 +15,4 @@ python crypto_chat_client.py 8887 localhost 8888
 
 ## Install dependencies
 
-Just run a simple `pip install cryptopy`
+Just run a simple `pip install pycrypto`
