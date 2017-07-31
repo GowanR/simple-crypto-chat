@@ -12,3 +12,7 @@ Run client connects to localhost on port 8888. Recieves messages on port 8887.
 ```
 python crypto_chat_client.py 8887 localhost 8888
 ```
+
+## Install dependencies
+
+Just run a simple `pip install cryptopy`
