@@ -16,18 +16,20 @@ import os
 import base64
 from Crypto.Cipher import XOR
 import base64
+import getpass
 
 help_text = """
 --help -h           help menu (you're looking at it)
 
 Usage:
-python crypto_chat_client.py <sync port> <serer port>
-python crypto_chat_client.py 8882 8881
+python crypto_chat_client.py <sync port> <ip> <serer port>
+python crypto_chat_client.py 8882 localhost 8881
 """
 
 try:
     sys.argv[1]
     sys.argv[2]
+    sys.argv[3]
 except IndexError:
     print "Make sure you have the right arguments."
     print help_text
@@ -55,10 +57,11 @@ def decrypt(key, ciphertext):
   return cipher.decrypt(ciphertext)
 
 sync_port = int(sys.argv[1])
-server_port = int(sys.argv[2])
+server_ip = sys.argv[2]
+server_port = int(sys.argv[3])
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 username = raw_input("Username: ")
-passkey = raw_input("Key: ")
+passkey = getpass.getpass('Key: ')
 
 
 def sync_messages():
@@ -78,7 +81,7 @@ def sync_messages():
 
 sync_thread = threading.Thread(target=sync_messages)
 sync_thread.start()
-sock.connect(("localhost", server_port))
+sock.connect((server_ip, server_port))
 sock.send((str(username) + "," + str(sync_port)))
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
