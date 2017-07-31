@@ -1,1 +1,1 @@
-worker: python crypto_chat_server.py 8888
+worker: python crypto_chat_server.py $PORT
