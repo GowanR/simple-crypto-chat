@@ -13,7 +13,7 @@ import sys
 intro_text = """
 *****************************************************
 *                                                   *
-*   Chat Server Version 0.1.1                       *
+*   Chat Server Version 0.1.2                       *
 *   Written by GowanR                               *
 *                                                   *
 *****************************************************

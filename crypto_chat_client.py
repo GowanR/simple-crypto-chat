@@ -39,7 +39,7 @@ os.system("clear")
 intro_text = """
 ********************************************************
 *                                                      *
-*    Welcome to Chat Client Version 0.1.1              *
+*    Welcome to Chat Client Version 0.1.2              *
 *                                                      *
 *    Choose a username and just send messages!         *
 *     (hint: don't use commas)                         *
