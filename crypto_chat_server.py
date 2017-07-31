@@ -22,8 +22,8 @@ help_text = """
 --help -h           help menu (you're looking at it)
 
 Usage:
-python crypto_chat_server.py <port>
-python crypto_chat_server.py 8881
+python crypto_chat_server.py <server ip> <port>
+python crypto_chat_server.py localhost 8881
 """
 
 try:
@@ -36,11 +36,13 @@ except IndexError:
 if sys.argv[1] == "-h" or sys.argv[1] == "--help":
     print help_text
     exit(0)
-port = int(sys.argv[1])
+
+local_ip = sys.argv[1]
+port = int(sys.argv[2])
 
 print intro_text
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.bind(("localhost", port))
+sock.bind((local_ip, port))
 sock.listen(2)
 
 user_list = []

@@ -22,14 +22,15 @@ help_text = """
 --help -h           help menu (you're looking at it)
 
 Usage:
-python crypto_chat_client.py <sync port> <ip> <serer port>
-python crypto_chat_client.py 8882 localhost 8881
+python crypto_chat_client.py <sync ip> <sync port> <ip> <server port>
+python crypto_chat_client.py 8882 localhost 8881 localhost
 """
 
 try:
     sys.argv[1]
     sys.argv[2]
     sys.argv[3]
+    sys.argv[4]
 except IndexError:
     print "Make sure you have the right arguments."
     print help_text
@@ -56,9 +57,10 @@ def decrypt(key, ciphertext):
   cipher = XOR.new(key)
   return cipher.decrypt(ciphertext)
 
-sync_port = int(sys.argv[1])
-server_ip = sys.argv[2]
-server_port = int(sys.argv[3])
+local_ip = sys.argv[1]
+sync_port = int(sys.argv[2])
+server_ip = sys.argv[3]
+server_port = int(sys.argv[4])
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 username = raw_input("Username: ")
 passkey = getpass.getpass('Key: ')
@@ -67,7 +69,7 @@ passkey = getpass.getpass('Key: ')
 def sync_messages():
     global passkey
     get_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_settings = ("localhost", int(sync_port))
+    server_settings = (local_ip, int(sync_port))
     get_sock.bind(server_settings)
     get_sock.listen(2)
     while True:
@@ -88,7 +90,7 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
     while True:
         message = raw_input()
-        sock.connect(("localhost", server_port))
+        sock.connect((server_ip, server_port))
         message = encrypt(passkey, message)
         sock.send((str(username) +"," + str(message)))
         sock.close()
