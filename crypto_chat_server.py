@@ -1,18 +1,46 @@
+##################################################################
+#                                                                #
+#   `crypto_chat_server.py` is a server for encrypted messaging. #
+#   This software is written for educational purposes.           #
+#                                                                #
+#   License: https://www.mozilla.org/en-US/MPL/                  #
+#   Written by GowanR (Jul 30 2017)                              #
+#                                                                #
+##################################################################
 import socket
+import sys
 
 intro_text = """
 *****************************************************
 *                                                   *
-*   Chat Server Version 0.1.0                       *
+*   Chat Server Version 0.1.1                       *
 *   Written by GowanR                               *
 *                                                   *
 *****************************************************
 """
+help_text = """
+--help -h           help menu (you're looking at it)
+
+Usage:
+python crypto_chat_server.py <port>
+python crypto_chat_server.py 8881
+"""
+
+try:
+    sys.argv[1]
+except IndexError:
+    print "Please provide port argument"
+    print help_text
+    exit(0)
+
+if sys.argv[1] == "-h" or sys.argv[1] == "--help":
+    print help_text
+    exit(0)
+port = int(sys.argv[1])
 
 print intro_text
-messages = []
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.bind(("localhost", 8083))
+sock.bind(("localhost", port))
 sock.listen(2)
 
 user_list = []
@@ -25,7 +53,7 @@ def send_to_everyone(data):
             push_sock.connect(port_list[i])
             push_sock.send((str(data[0]) + "," + data[1]))
             push_sock.close()
-            
+
 try:
     while True:
         conn, addr = sock.accept()
@@ -38,11 +66,7 @@ try:
             send_to_everyone(("[Server]", str(data[0]) + " connected."))
         else:
             send_to_everyone(data)
-            print "recv: ", data, "Address:", addr
-        #for peer in addr_list:
-        #    if peer != addr:
-        #        push_sock.connect(peer)
-        #        push_sock.send((data))
+            #print "recv: ", data, "Address:", addr
 except (KeyboardInterrupt, SystemExit):
     print "\nShutting down server."
     sock.close()
